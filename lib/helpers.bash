@@ -1,4 +1,4 @@
-# Helper function loading various enable-able files
+# Helper function loading various enable_able files
 function _load_bash_it_files() {
   subdirectory="$1"
   if [ ! -d "${BASH_IT}/${subdirectory}/enabled" ]
@@ -29,16 +29,16 @@ function reload_plugins() {
   _load_bash_it_files "plugins"
 }
 
-bash-it ()
+bash_it ()
 {
-    about 'bash-it help and maintenance'
+    about 'bash_it help and maintenance'
     param '1: verb [one of: help | show | enable | disable ]'
     param '2: component type [one of: alias(es) | completion(s) | plugin(s) ]'
     param '3: specific component [optional]'
-    example '$ bash-it show plugins'
-    example '$ bash-it help aliases'
-    example '$ bash-it enable plugin git'
-    example '$ bash-it disable alias hg'
+    example '$ bash_it show plugins'
+    example '$ bash_it help aliases'
+    example '$ bash_it enable plugin git'
+    example '$ bash_it disable alias hg'
     typeset verb=${1:-}
     shift
     typeset component=${1:-}
@@ -46,15 +46,15 @@ bash-it ()
     typeset func
     case $verb in
          show)
-             func=_bash-it-$component;;
+             func=_bash_it_$component;;
          enable)
-             func=_enable-$component;;
+             func=_enable_$component;;
          disable)
-             func=_disable-$component;;
+             func=_disable_$component;;
          help)
-             func=_help-$component;;
+             func=_help_$component;;
          *)
-             reference bash-it
+             reference bash_it
              return;;
     esac
 
@@ -67,7 +67,7 @@ bash-it ()
                 func=${func}es
             else
                 echo "oops! $component is not a valid option!"
-                reference bash-it
+                reference bash_it
                 return
             fi
         fi
@@ -83,38 +83,38 @@ _is_function ()
     [ -n "$(type -a $1 2>/dev/null | grep 'is a function')" ]
 }
 
-_bash-it-aliases ()
+_bash_it_aliases ()
 {
     _about 'summarizes available bash_it aliases'
     _group 'lib'
 
-    _bash-it-describe "aliases" "an" "alias" "Alias"
+    _bash_it_describe "aliases" "an" "alias" "Alias"
 }
 
-_bash-it-completions ()
+_bash_it_completions ()
 {
     _about 'summarizes available bash_it completions'
     _group 'lib'
 
-    _bash-it-describe "completion" "a" "completion" "Completion"
+    _bash_it_describe "completion" "a" "completion" "Completion"
 }
 
-_bash-it-plugins ()
+_bash_it_plugins ()
 {
     _about 'summarizes available bash_it plugins'
     _group 'lib'
 
-    _bash-it-describe "plugins" "a" "plugin" "Plugin"
+    _bash_it_describe "plugins" "a" "plugin" "Plugin"
 }
 
-_bash-it-describe ()
+_bash_it_describe ()
 {
     _about 'summarizes available bash_it components'
     _param '1: subdirectory'
     _param '2: preposition'
     _param '3: file_type'
     _param '4: column_header'
-    _example '$ _bash-it-describe "plugins" "a" "plugin" "Plugin"'
+    _example '$ _bash_it_describe "plugins" "a" "plugin" "Plugin"'
     
     subdirectory="$1"
     preposition="$2"
@@ -134,55 +134,55 @@ _bash-it-describe ()
         printf "%-20s%-10s%s\n" "$(basename $f | cut -d'.' -f1)" "  [$enabled]" "$(cat $f | metafor about-$file_type)"
     done
     printf '\n%s\n' "to enable $preposition $file_type, do:"
-    printf '%s\n' "$ bash-it enable $file_type  <$file_type name> -or- $ bash-it enable $file_type all"
+    printf '%s\n' "$ bash_it enable $file_type  <$file_type name> -or- $ bash_it enable $file_type all"
     printf '\n%s\n' "to disable $preposition $file_type, do:"
-    printf '%s\n' "$ bash-it disable $file_type <$file_type name> -or- $ bash-it disable $file_type all"
+    printf '%s\n' "$ bash_it disable $file_type <$file_type name> -or- $ bash_it disable $file_type all"
 }
 
-_disable-plugin ()
+_disable_plugin ()
 {
     _about 'disables bash_it plugin'
     _param '1: plugin name'
-    _example '$ disable-plugin rvm'
+    _example '$ disable_plugin rvm'
     _group 'lib'
 
-    _disable-thing "plugins" "plugin" $1
+    _disable_thing "plugins" "plugin" $1
 }
 
-_disable-alias ()
+_disable_alias ()
 {
     _about 'disables bash_it alias'
     _param '1: alias name'
-    _example '$ disable-alias git'
+    _example '$ disable_alias git'
     _group 'lib'
 
-    _disable-thing "aliases" "alias" $1
+    _disable_thing "aliases" "alias" $1
 }
 
-_disable-completion ()
+_disable_completion ()
 {
     _about 'disables bash_it completion'
     _param '1: completion name'
-    _example '$ disable-completion git'
+    _example '$ disable_completion git'
     _group 'lib'
 
-    _disable-thing "completion" "completion" $1
+    _disable_thing "completion" "completion" $1
 }
 
-_disable-thing ()
+_disable_thing ()
 {
     _about 'disables a bash_it component'
     _param '1: subdirectory'
     _param '2: file_type'
     _param '3: file_entity'
-    _example '$ _disable-thing "plugins" "plugin" "ssh"'
+    _example '$ _disable_thing "plugins" "plugin" "ssh"'
     
     subdirectory="$1"
     file_type="$2"
     file_entity="$3"
 
     if [ -z "$file_entity" ]; then
-        reference "disable-$file_type"
+        reference "disable_$file_type"
         return
     fi
 
@@ -207,51 +207,51 @@ _disable-thing ()
     printf '%s\n' "$file_entity disabled."
 }
 
-_enable-plugin ()
+_enable_plugin ()
 {
     _about 'enables bash_it plugin'
     _param '1: plugin name'
-    _example '$ enable-plugin rvm'
+    _example '$ enable_plugin rvm'
     _group 'lib'
 
-    _enable-thing "plugins" "plugin" $1
+    _enable_thing "plugins" "plugin" $1
 }
 
-_enable-alias ()
+_enable_alias ()
 {
     _about 'enables bash_it alias'
     _param '1: alias name'
-    _example '$ enable-alias git'
+    _example '$ enable_alias git'
     _group 'lib'
 
-    _enable-thing "aliases" "alias" $1
+    _enable_thing "aliases" "alias" $1
 }
 
-_enable-completion ()
+_enable_completion ()
 {
     _about 'enables bash_it completion'
     _param '1: completion name'
-    _example '$ enable-completion git'
+    _example '$ enable_completion git'
     _group 'lib'
 
-    _enable-thing "completion" "completion" $1
+    _enable_thing "completion" "completion" $1
 }
 
-_enable-thing ()
+_enable_thing ()
 {
     cite _about _param _example
     _about 'enables a bash_it component'
     _param '1: subdirectory'
     _param '2: file_type'
     _param '3: file_entity'
-    _example '$ _enable-thing "plugins" "plugin" "ssh"'	
+    _example '$ _enable_thing "plugins" "plugin" "ssh"'	
 	
     subdirectory="$1"
     file_type="$2"
     file_entity="$3"
 
     if [ -z "$file_entity" ]; then
-        reference "enable-$file_type"
+        reference "enable_$file_type"
         return
     fi
 
@@ -285,7 +285,7 @@ _enable-thing ()
     printf '%s\n' "$file_entity enabled."
 }
 
-_help-aliases()
+_help_aliases()
 {
     _about 'shows help for all aliases, or a specific alias group'
     _param '1: optional alias group'
@@ -306,9 +306,9 @@ _help-aliases()
     fi
 }
 
-_help-plugins()
+_help_plugins()
 {
-    _about 'summarize all functions defined by enabled bash-it plugins'
+    _about 'summarize all functions defined by enabled bash_it plugins'
     _group 'lib'
 
     # display a brief progress message...
